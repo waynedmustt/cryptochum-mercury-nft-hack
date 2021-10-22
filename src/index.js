@@ -3,6 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import * as fcl from '@onflow/fcl';
+
+// Configure FCL for Flow testnet.
+fcl
+  .config()
+  .put('accessNode.api', 'https://access-testnet.onflow.org')
+  .put('discovery.wallet', 'https://fcl-discovery.onflow.org/testnet/authn');
 
 ReactDOM.render(
   <React.StrictMode>
