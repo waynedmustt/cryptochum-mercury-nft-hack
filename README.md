@@ -17,9 +17,11 @@ set up the config of the app.
 
 ### `set up smart contract address on src/config.json`
 
+```bash
 {
     "smartContractAddress": "" // YOUR TESTNET ACCOUNT ADDRESS WHERE SMART CONTRACT LIVES
 }
+```
 
 ### `yarn start`
 
