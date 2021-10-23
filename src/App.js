@@ -160,6 +160,7 @@ function App() {
       ])
     ]).then(fcl.decode);
 
+    console.log(hasCollection, 'test')
     setHasCollection(hasCollection);
   }
 
@@ -170,6 +171,9 @@ function App() {
 
         transaction() {
           prepare(account: AuthAccount) {
+            if account.borrow<&CryptoChumSprite.Collection>(from: /storage/cryptoChumSpriteCollection) != nil {
+                return
+            }
             let collection <- CryptoChumSprite.createCollection()
 
             account.save(
@@ -188,7 +192,7 @@ function App() {
       fcl.payer(await signer.authorize({address: serviceWallet?.address})),
       fcl.proposer(await signer.authorize({address: serviceWallet?.address})),
       fcl.authorizations([await signer.authorize({address: serviceWallet?.address})]),
-      fcl.limit(9999)
+      fcl.limit(300)
     ]).then(fcl.decode);
 
     const result = await fcl.tx(transactionId).onceSealed();
@@ -241,7 +245,7 @@ function App() {
           fcl.payer(await signer.authorize({address: serviceWallet?.address})),
           fcl.proposer(await signer.authorize({address: serviceWallet?.address})),
           fcl.authorizations([await signer.authorize({address: serviceWallet?.address})]),
-          fcl.limit(9999)
+          fcl.limit(300)
         ]).then(fcl.decode);
 
         console.log(transactionId, 'transactionId')
