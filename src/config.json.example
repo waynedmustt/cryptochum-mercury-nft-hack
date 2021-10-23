@@ -1,3 +1,26 @@
 {
-    "smartContractAddress": ""
+    "smartContractAddress": "",
+    "wallets": [
+        {
+			"address": "0xbe10a57e27a74bf7",
+			"keys": [
+				{
+					"publicKey": "015ef2ebf9d0a63136229ac618f26c26300c2191c05c3651d0def2e883acacf62b77e1e6eb0335e62266ca0e7295fa77ac8b7feb0a9c19bcd0d3f481e287bc12",
+					"privateKey": "ff566eb8e3b91b3860e8bc80c9bc911d0a21108951aa4624acd14bb9214f8eb5",
+					"keyId": 0,
+					"weight": 1000
+				}
+			]
+		}
+    ],
+    "serviceWallet": {
+		"address": "0xbe10a57e27a74bf7",
+		"keys": [
+			{
+				"privateKey": "ff566eb8e3b91b3860e8bc80c9bc911d0a21108951aa4624acd14bb9214f8eb5",
+				"keyId": 0,
+				"weight": 1000
+			}
+		]
+	}
 }
