@@ -22,32 +22,17 @@ function App() {
   const init = () => {
     // fetch balance
     fetchBalance();
-    checkCollection(user?.addr);
+    checkCollection(serviceWallet?.address);
   }
-
-  useEffect(() => fcl.currentUser.subscribe(setUser), [])
 
   useEffect(() => {
     if (hasCollection) {
-      getSpriteIDs(user?.addr);
+      getSpriteIDs(serviceWallet?.address);
     }
   }, [hasCollection])
 
   useEffect(() => {
-    if (!user?.addr) {
-      return;
-    }
-
     init();
-  }, [user])
-
-  useEffect(() => {
-    if (!isSubmitted) {
-      return;
-    }
-
-    init();
-    setIsSubmitted(false);
   }, [isSubmitted])
 
   useEffect( async () => {
@@ -84,7 +69,7 @@ function App() {
         }
       `,
       fcl.args([
-        fcl.arg(user?.addr, FlowTypes.Address),
+        fcl.arg(serviceWallet?.address, FlowTypes.Address),
         fcl.arg(parseInt(id), FlowTypes.UInt64)
       ])
     ]).then(fcl.decode);
@@ -112,7 +97,7 @@ function App() {
         }
       `,
       fcl.args([
-        fcl.arg(user?.addr, FlowTypes.Address)
+        fcl.arg(serviceWallet?.address, FlowTypes.Address)
       ])
     ]).then(fcl.decode);
 
@@ -135,7 +120,7 @@ function App() {
         }
       `,
       fcl.args([
-        fcl.arg(user?.addr, FlowTypes.Address)
+        fcl.arg(serviceWallet?.address, FlowTypes.Address)
       ])
     ]).then(fcl.decode);
 
@@ -143,6 +128,7 @@ function App() {
   }
 
   const checkCollection = async (address) => {
+    setHasCollection(false);
     const hasCollection = await fcl.send([
       fcl.script`
         import CryptoChumSprite from ${config.smartContractAddress}
@@ -160,7 +146,6 @@ function App() {
       ])
     ]).then(fcl.decode);
 
-    console.log(hasCollection, 'test')
     setHasCollection(hasCollection);
   }
 
@@ -247,8 +232,6 @@ function App() {
           fcl.authorizations([await signer.authorize({address: serviceWallet?.address})]),
           fcl.limit(300)
         ]).then(fcl.decode);
-
-        console.log(transactionId, 'transactionId')
         
         return fcl.tx(transactionId).onceSealed();
       } catch (error) {
@@ -258,22 +241,23 @@ function App() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const result = await storeCryptoChumSpriteState(stateForm.name, stateForm.state, user?.addr)
-    console.log(result, 'result');
+    const result = await storeCryptoChumSpriteState(stateForm.name, stateForm.state, serviceWallet?.address)
+    if (result?.statusCode === 0) { // means successful
     setIsSubmitted(true);
+    }
   }
 
   const AuthedState = () => {
     return (
       <div>
-        <div>Address: {user?.addr ?? "No Address"}</div>
+        <div>Address: {serviceWallet?.address ?? "No Address"}</div>
         <div>Balance: {balance}</div>
         <div>has collection: {hasCollection ? 'yes': 'no'}</div>
-        <div>
+        {/* <div>
           {!hasCollection ? 
             <button type="button" onClick={onCreateCollection}>Create Collection</button> : null
           }
-        </div>
+        </div> */}
         <div>
           <input 
           type="text"
@@ -319,7 +303,7 @@ function App() {
             </tbody>
           </table>
         </div>
-        <button onClick={fcl.unauthenticate}>Log Out</button>
+        {/* <button onClick={fcl.unauthenticate}>Log Out</button> */}
       </div>
     )
   }
@@ -336,10 +320,11 @@ function App() {
   return (
     <div>
       <h1>Flow App</h1>
-      {user.loggedIn
+      {/* {user.loggedIn
         ? <AuthedState />
         : <UnauthenticatedState />
-      }
+      } */}
+      <AuthedState />
     </div>
   );
 }
