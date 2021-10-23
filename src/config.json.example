@@ -1,3 +1,5 @@
 {
-    "smartContractAddress": ""
+    "smartContractAddress": "",
+    "wallets": [],
+    "serviceWallet": {}
 }
