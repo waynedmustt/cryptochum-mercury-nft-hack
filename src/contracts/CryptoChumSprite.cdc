@@ -72,15 +72,15 @@ pub contract CryptoChumSprite {
     }
 
     init() {
-        self.account.save(
-            <- self.createCollection(),
-            to: /storage/cryptoChumSpriteCollection
-        )
+        // self.account.save(
+        //     <- self.createCollection(),
+        //     to: /storage/cryptoChumSpriteCollection
+        // )
 
-        self.account.link<&{Receiver}>(
-            /public/cryptoChumSpriteCollection,
-            target: /storage/cryptoChumSpriteCollection
-        )
+        // self.account.link<&{Receiver}>(
+        //     /public/cryptoChumSpriteCollection,
+        //     target: /storage/cryptoChumSpriteCollection
+        // )
         self.account.save(
             <- create Minter(),
             to: /storage/cryptoChumSpriteMinter

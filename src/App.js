@@ -19,6 +19,8 @@ function App() {
   const serviceWallet = config.serviceWallet
   let signer = new Signer(serviceWallet, true);
 
+  useEffect(() => fcl.currentUser.subscribe(setUser), [])
+
   const init = () => {
     // fetch balance
     fetchBalance();
@@ -170,6 +172,17 @@ function App() {
                 /public/cryptoChumSpriteCollection,
                 target: /storage/cryptoChumSpriteCollection
             )
+
+            let collectionRef = account.getCapability(/public/cryptoChumSpriteCollection)
+            .borrow<&{CryptoChumSprite.Receiver}>()
+          }
+
+          execute {
+            if (collectionRef != nil) {
+              log('true')
+            } else {
+              log('false')
+            }
           }
         }
       `,
@@ -253,11 +266,11 @@ function App() {
         <div>Address: {serviceWallet?.address ?? "No Address"}</div>
         <div>Balance: {balance}</div>
         <div>has collection: {hasCollection ? 'yes': 'no'}</div>
-        {/* <div>
+        <div>
           {!hasCollection ? 
             <button type="button" onClick={onCreateCollection}>Create Collection</button> : null
           }
-        </div> */}
+        </div>
         <div>
           <input 
           type="text"
@@ -303,7 +316,7 @@ function App() {
             </tbody>
           </table>
         </div>
-        {/* <button onClick={fcl.unauthenticate}>Log Out</button> */}
+        <button onClick={fcl.unauthenticate}>Log Out</button>
       </div>
     )
   }
@@ -320,11 +333,10 @@ function App() {
   return (
     <div>
       <h1>Flow App</h1>
-      {/* {user.loggedIn
+      {user.loggedIn
         ? <AuthedState />
         : <UnauthenticatedState />
-      } */}
-      <AuthedState />
+      }
     </div>
   );
 }
