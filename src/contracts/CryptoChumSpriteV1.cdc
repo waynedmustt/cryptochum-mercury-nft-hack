@@ -1,12 +1,14 @@
-pub contract CryptoChumSprite {
+pub contract CryptoChumSpriteV1 {
     
     pub resource NFT {
         pub let id: UInt64
+        pub var uniqueId: String
         pub let name: String
         pub let state: String
 
-        init(id: UInt64, name: String, state: String) {
+        init(id: UInt64, uniqueId: String, name: String, state: String) {
             self.id = id
+            self.uniqueId = uniqueId
             self.name = name
             self.state = state
         }
@@ -60,8 +62,8 @@ pub contract CryptoChumSprite {
         init() {
             self.totalSupply = 0
         }
-        pub fun mint(name: String, state: String): @NFT {
-            let nft <- create NFT(id: self.totalSupply + 1, name: name, state: state)
+        pub fun mint(uniqueId: String, name: String, state: String): @NFT {
+            let nft <- create NFT(id: self.totalSupply + 1, uniqueId: uniqueId, name: name, state: state)
             self.totalSupply = self.totalSupply + 1
             return <- nft
         }
@@ -74,12 +76,12 @@ pub contract CryptoChumSprite {
     init() {
         self.account.save(
             <- create Minter(),
-            to: /storage/cryptoChumSpriteMinter
+            to: /storage/cryptoChumSpriteMinterV1
         )
 
         self.account.link<&Minter>(
-            /public/cryptoChumSpriteMinter,
-            target: /storage/cryptoChumSpriteMinter
+            /public/cryptoChumSpriteMinterV1,
+            target: /storage/cryptoChumSpriteMinterV1
         )
     }
 }
