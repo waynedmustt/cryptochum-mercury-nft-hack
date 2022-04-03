@@ -51,3 +51,11 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Retrieve Data into Blockchain example can be found in:
 `getSpriteIDs`
+
+## Running `nft-storage-uploader` Script
+```bash
+cd nft-storage-uploader
+yarn install
+make sure images folder are filled with image files
+node index.js 
+```

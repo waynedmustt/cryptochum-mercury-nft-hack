@@ -356,8 +356,8 @@ function App() {
     const uniqueId = uuid();
     const result = await storeCryptoChumSpriteState(uniqueId, stateForm.state, serviceWallet?.address)
     if (result?.statusCode === 0) { // means successful
-    setLastName(uniqueId);
-    setIsSubmitted(true);
+      setLastName(uniqueId);
+      setIsSubmitted(true);
     }
   }
 
@@ -373,17 +373,6 @@ function App() {
           }
         </div>
         <div>
-          {/* <input 
-          type="text"
-          placeholder={'Description'}
-          value={stateForm.name} onChange={(e) => {
-            e.preventDefault()
-            setStateForm({
-              ...stateForm,
-              name: e.target.value
-            })
-          }}
-          /> */}
           <input 
           type="text"
           placeholder={'State'}
